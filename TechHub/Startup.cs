@@ -48,7 +48,8 @@ namespace TeachHub
 
                 endpoints.MapControllerRoute(
                     name: "enrollmentRoute",
-                    pattern: "{controller=Enrollments}/{action=Edit}/{courseId}{learnerId}");
+                    pattern: "{controller=Enrollments}/{action=Edit}/{courseId}/{learnerId}");
+
             });
         }
     }
