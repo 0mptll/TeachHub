@@ -1,33 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace TeachHub.Models
 {
-    public class User
+    public class User:IdentityUser
     {
-        public int Id { get; set; }
+        public bool IsProfileComplete { get; set; } = false;
 
-        [Required]public string Name { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters long.")]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-
-        public string? ProfilePicture { get; set; }
-
-
-        [Required]
-        public UserRole Role {  get; set; } 
-        public enum UserRole
-        {
-            Teacher = 1,
-            Learner = 2
-        }
-
-
+        public virtual Teacher Teacher { get; set; }
+        public virtual Learner Learner { get; set; }
     }
 }

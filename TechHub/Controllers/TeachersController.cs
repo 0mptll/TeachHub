@@ -27,7 +27,7 @@ namespace TeachHub.Controllers
         }
 
         // GET: Teachers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -48,7 +48,7 @@ namespace TeachHub.Controllers
         // GET: Teachers/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email");
+            ViewData["Id"] = new SelectList(_context.Set<User>(), "Id", "Id");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace TeachHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TeacherId,UserId,Bio")] Teacher teacher)
+        public async Task<IActionResult> Create([Bind("Id,Bio,Name,ProfilePicture")] Teacher teacher)
         {
             if (ModelState.IsValid)
             {
@@ -65,12 +65,12 @@ namespace TeachHub.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", teacher.UserId);
+            ViewData["Id"] = new SelectList(_context.Set<User>(), "TeacherId", "TeacherId", teacher.TeacherId);
             return View(teacher);
         }
 
         // GET: Teachers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -82,7 +82,7 @@ namespace TeachHub.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", teacher.UserId);
+            ViewData["Id"] = new SelectList(_context.Set<User>(), "TeacherId", "TeacherId", teacher.TeacherId);
             return View(teacher);
         }
 
@@ -91,7 +91,7 @@ namespace TeachHub.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TeacherId,UserId,Bio")] Teacher teacher)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Bio,Name,ProfilePicture")] Teacher teacher)
         {
             if (id != teacher.TeacherId)
             {
@@ -118,12 +118,12 @@ namespace TeachHub.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", teacher.UserId);
+            ViewData["Id"] = new SelectList(_context.Set<User>(), "TeacherId", "TeacherId", teacher.TeacherId);
             return View(teacher);
         }
 
         // GET: Teachers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -144,7 +144,7 @@ namespace TeachHub.Controllers
         // POST: Teachers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var teacher = await _context.Teachers.FindAsync(id);
             if (teacher != null)
@@ -156,7 +156,7 @@ namespace TeachHub.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TeacherExists(int id)
+        private bool TeacherExists(string id)
         {
             return _context.Teachers.Any(e => e.TeacherId == id);
         }
